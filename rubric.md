@@ -37,5 +37,7 @@
 
 >### Creative Portion (20 points)
 
-TA: Olivia Schotz
- - approved: 11/22/20
+
+
+>## Rubric Check
+>TA: Olivia Schotz - approved: 11/22/20
