@@ -36,3 +36,6 @@
     - Uses scss/sass
 
 >### Creative Portion (20 points)
+
+TA: Olivia Schotz
+ - approved: 11/22/20
