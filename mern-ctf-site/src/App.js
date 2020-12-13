@@ -7,7 +7,7 @@ import Posts from "./components/posts.component"
 import CreatePost from "./components/create-post.component"
 import EditPost from './components/edit-post.component'
 import Signin from './components/signin.component'
-
+import Register from './components/register.component'
 
 function App() {
   return (
@@ -19,6 +19,7 @@ function App() {
         <Route path='/create' component={CreatePost} />
         <Route path='/edit/:id' component={EditPost} />
         <Route path='/signin' component={Signin} />
+        <Route path='/register' component={Register} />
       </div>
     </Router>
   );

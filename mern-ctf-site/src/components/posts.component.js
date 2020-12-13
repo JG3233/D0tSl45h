@@ -8,7 +8,7 @@ const Post = props => (
       <td>{props.post.title}</td>
       <td>{props.post.content}</td>
       <td>
-        <Link to={"/edit/"+props.post._id}>edit</Link> | <a href="#" onClick={() => { props.deletePost(props.post._id) }}>delete</a>
+        <Link to={"/edit/"+props.post._id}>edit</Link> | <a href="/" onClick={() => { props.deletePost(props.post._id) }}>delete</a>
       </td>
     </tr>
   )

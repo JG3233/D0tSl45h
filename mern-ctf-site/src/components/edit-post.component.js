@@ -1,6 +1,5 @@
 import React, { Component, createRef } from 'react'
 import axios from 'axios'
-import { connection } from 'mongoose'
 
 export default class EditPosts extends Component {
     constructor(props) {

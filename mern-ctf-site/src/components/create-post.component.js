@@ -65,7 +65,7 @@ export default class Posts extends Component {
         .then(res => console.log(res.data))
         .catch(err => console.log("Publish post error -> ", err))
         
-        //window.location = '/'
+        window.location = '/'
     }
 
     render() {

@@ -9,6 +9,7 @@ require('dotenv').config()
 
 const app = express()
 const port = process.env.PORT || 5000
+const MAX_AGE = 1000 * 60 * 60 * 3; // Three hours
 
 app.use(cors())
 app.use(express.json())
