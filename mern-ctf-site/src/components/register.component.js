@@ -36,7 +36,7 @@ export default class Register extends Component {
 
         authService.register(this.state.username, this.state.password)
 
-        //window.location = '/signin'
+        window.location = '/signin'
     }
 
     render() {

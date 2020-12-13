@@ -12,7 +12,7 @@ const register = (username, password) => {
     axios.post(API_URL + '/register', data)
         .then(res => {
             if (res.data.msg === 'User added!') {
-                alert('registration complete')
+                // alert('registration complete')
             }
             else {
                 if (res.data.msg === 'Username is already taken') {
@@ -40,12 +40,12 @@ const login = (username, password) => {
                 if (res.data.accessToken) {
                     localStorage.setItem("user", JSON.stringify(res.data));
                 }
-                alert("welcome!")
+                // alert("welcome!")
                 window.location = '/'
                 return res.data
             }
             else {
-                alert('sorry incorrect login')
+                // alert('sorry incorrect login')
                 console.log('login failure')
             }
         })

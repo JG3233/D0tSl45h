@@ -13,8 +13,7 @@ export default class Navbar extends Component {
 
     logOut() {
         authService.logout()
-        //window.location = '/'
-        //update the state to reload the navbar
+        window.location = '/'
     }
 
     render() {
