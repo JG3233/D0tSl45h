@@ -1,17 +1,29 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import authService from '../services/auth.service'
 
+const user = authService.getCurrentUser()
 const Post = props => (
     <tr>
-      <td>{props.post.username}</td>
-      <td>{props.post.title}</td>
-      <td>{props.post.content}</td>
-      <td>
-        <Link to={"/edit/"+props.post._id}>edit</Link> | <a href="/" onClick={() => { props.deletePost(props.post._id) }}>delete</a>
-      </td>
+        <td>{props.post.username}</td>
+        <td>{props.post.title.substring(0,30)}</td>
+        <td>{props.post.content.substring(0, 30)}</td>
+        {user && user.username === props.post.username ?
+            (
+                <td>
+                    <Link to={"/view/" + props.post._id}>View</Link> | 
+                    <Link to={"/edit/" + props.post._id}> Edit</Link> | 
+                    <a href="/" onClick={() => { props.deletePost(props.post._id) }}> Delete</a>
+                </td>
+            ) : (
+                <td>
+                    <Link to={"/view/" + props.post._id}>View</Link>
+                </td>
+            )
+        }
     </tr>
-  )
+)
 
 export default class Posts extends Component {
     constructor(props) {
@@ -33,7 +45,7 @@ export default class Posts extends Component {
     }
 
     deletePost(id) {
-        axios.delete('http://localhost:5000/posts/' + id)
+        axios.delete('http://localhost:5000/posts/' + id, { headers: authService.authHeader() })
             .then(res => { console.log(res) })
             .catch(err => { console.log('Deletion error -> ', err) })
 
@@ -44,19 +56,19 @@ export default class Posts extends Component {
 
     postList() {
         return this.state.posts.map(curpost => {
-          return <Post post={curpost} deletePost={this.deletePost} key={curpost._id}/>;
+            return <Post post={curpost} deletePost={this.deletePost} key={curpost._id} />;
         })
-      }
+    }
 
     render() {
         return (
             <div>
-                <h3>Posts</h3>
+                <h3>Writeups</h3>
                 <table className="table">
                     <thead className="thead-light">
                         <tr>
                             <th>Username</th>
-                            <th>Title</th>
+                            <th>Title/Challenge</th>
                             <th>Content</th>
                             <th>Actions</th>
                         </tr>

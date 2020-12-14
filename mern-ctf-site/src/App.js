@@ -6,6 +6,7 @@ import Navbar from "./components/navbar.component"
 import Posts from "./components/posts.component"
 import CreatePost from "./components/create-post.component"
 import EditPost from './components/edit-post.component'
+import ViewPost from './components/view-post.component'
 import Signin from './components/signin.component'
 import Register from './components/register.component'
 
@@ -18,6 +19,7 @@ function App() {
         <Route path='/' exact component={Posts} />
         <Route path='/create' component={CreatePost} />
         <Route path='/edit/:id' component={EditPost} />
+        <Route path='/view/:id' component={ViewPost} />
         <Route path='/signin' component={Signin} />
         <Route path='/register' component={Register} />
       </div>

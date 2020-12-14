@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { authJWT } = require('../middleware')
 let Post = require('../models/post.model')
 
 router.route('/').get((req, res) => {
@@ -7,7 +8,7 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err))
 })
 
-router.route('/add').post((req, res) => {
+router.route('/add', authJWT.verifyToken).post(authJWT.verifyToken, (req, res) => {
     const username = req.body.username
     const title = req.body.title
     const content = req.body.content
@@ -25,24 +26,24 @@ router.route('/:id').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').delete((req, res) => {
+router.route('/:id').delete(authJWT.verifyToken, (req, res) => {
     Post.findByIdAndDelete(req.params.id)
         .then(() => res.json('Post deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/update/:id').post((req, res) => {
+router.route('/update/:id').post(authJWT.verifyToken, (req, res) => {
     Post.findById(req.params.id)
-      .then(post => {
-        post.username = req.body.username;
-        post.title = req.body.title;
-        post.content = req.body.content;
-  
-        post.save()
-          .then(() => res.json('Post updated!'))
-          .catch(err => res.status(400).json('Error: ' + err));
-      })
-      .catch(err => res.status(400).json('Error: ' + err));
-  });
+        .then(post => {
+            post.username = req.body.username;
+            post.title = req.body.title;
+            post.content = req.body.content;
+
+            post.save()
+                .then(() => res.json('Post updated!'))
+                .catch(err => res.status(400).json('Error: ' + err));
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
 
 module.exports = router

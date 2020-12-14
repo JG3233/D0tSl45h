@@ -21,13 +21,13 @@ export default class Navbar extends Component {
             <nav className='navbar navbar-dark bg-dark navbar-expand-lg'>
                 <Link to="/" className='navbar-brand'>D0tS14sh</Link>
                 { user ? (
-                    <div className='collapse navbar-collapse'>
+                    <div className='navbar-collapse'>
                         <ul className='navbar-nav mr-auto'>
                             <li className='navbar-item'>
-                                <Link to='/' className='nav-link'>Posts</Link>
+                                <Link to='/' className='nav-link'>Writeups</Link>
                             </li>
                             <li className='navbar-item'>
-                                <Link to='/create' className='nav-link'>Create a Post</Link>
+                                <Link to='/create' className='nav-link'>Create a Writeup</Link>
                             </li>
                             <li className='navbar-item'>
                                 <Link to='/' onClick={this.logOut} className='nav-link'>Logout</Link>
@@ -35,13 +35,13 @@ export default class Navbar extends Component {
                         </ul>
                     </div>
                 ) : (
-                        <div className='collapse navbar-collapse'>
+                        <div className='navbar-collapse'>
                             <ul className='navbar-nav mr-auto'>
                                 <li className='navbar-item'>
-                                    <Link to='/' className='nav-link'>Posts</Link>
+                                    <Link to='/' className='nav-link'>Writeups</Link>
                                 </li>
                                 <li className='navbar-item'>
-                                    <Link to='/create' className='nav-link'>Create a Post</Link>
+                                    <Link to='/create' className='nav-link'>Create a Writeup</Link>
                                 </li>
                                 <li className='navbar-item'>
                                     <Link to='/signin' className='nav-link'>Sign in</Link>

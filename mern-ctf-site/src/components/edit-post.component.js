@@ -1,5 +1,8 @@
 import React, { Component, createRef } from 'react'
 import axios from 'axios'
+import authService from '../services/auth.service'
+
+const user = authService.getCurrentUser()
 
 export default class EditPosts extends Component {
     constructor(props) {
@@ -71,7 +74,7 @@ export default class EditPosts extends Component {
 
         console.log(post)
 
-        axios.post('http://localhost:5000/posts/update/'+ this.props.match.params.id, post)
+        axios.post('http://localhost:5000/posts/update/'+ this.props.match.params.id, post, { headers: authService.authHeader() })
         .then(res => console.log(res.data))
         .catch(err => console.log("Publish post error -> ", err))
         
@@ -83,22 +86,8 @@ export default class EditPosts extends Component {
             <div>
                 <h3>Edit Post</h3>
                 <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label>Username: </label>
-                        <select ref={this.formInput}
-                            required
-                            className="form-control"
-                            value={this.state.username}
-                            onChange={this.onChangeUsername}>
-                            {
-                                this.state.users.map(function (users) {
-                                    return <option
-                                        key={users}
-                                        value={users}>{users}
-                                    </option>;
-                                })
-                            }
-                        </select>
+                <div className="form-group">
+                        <h5 className="text-primary">Author: {user ? user.username : 'Log in to post!'}</h5>
                     </div>
                     <div className="form-group">
                         <label>Title: </label>
@@ -111,12 +100,13 @@ export default class EditPosts extends Component {
                     </div>
                     <div className="form-group">
                         <label>Content: </label>
-                        <input
+                        <textarea
                             type="text"
+                            rows='20'
                             className="form-control"
                             value={this.state.content}
-                            onChange={this.onChangeContent}
-                        />
+                            onChange={this.onChangeContent}>
+                        </textarea>
                     </div>
 
                     <div className="form-group">
