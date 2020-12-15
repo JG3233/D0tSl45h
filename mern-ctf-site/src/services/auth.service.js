@@ -71,10 +71,13 @@ const authHeader = () => {
     }
   }
 
-export default {
+
+const auth = {
     register,
     login,
     logout,
     getCurrentUser,
     authHeader
-};
+}
+
+export default auth

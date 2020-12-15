@@ -4,7 +4,7 @@ import authService from '../services/auth.service'
 
 const user = authService.getCurrentUser()
 
-export default class Posts extends Component {
+export default class BlogPosts extends Component {
     constructor(props) {
         super(props)
 
@@ -57,31 +57,31 @@ export default class Posts extends Component {
     onSubmit(e) {
         e.preventDefault()
 
-        const post = {
+        const blogpost = {
             username: this.state.username,
             title: this.state.title,
             content: this.state.content
         }
 
-        console.log(post)
+        console.log(blogpost)
 
-        axios.post('http://localhost:5000/posts/add', post, { headers: authService.authHeader() })
+        axios.post('http://localhost:5000/blog/add', blogpost, { headers: authService.authHeader() })
             .then(res => console.log(res.data))
             .catch(err => console.log("Publish post error -> ", err))
 
-        window.location = '/'
+        window.location = '/blog'
     }
 
     render() {
         return (
             <div>
-                <h3>Create New Post</h3><br></br>
+                <h3>Create New Blog Post</h3><br></br>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <h5 className="text-primary">Author: {user ? user.username : 'Log in to post!'}</h5>
                     </div>
                     <div className="form-group">
-                        <label>Title/Challenge: </label>
+                        <label>Topic: </label>
                         <input type="text"
                             required
                             className="form-control"
@@ -94,7 +94,7 @@ export default class Posts extends Component {
                         <label>Content: </label>
                         <textarea
                             type="text"
-                            rows='20'
+                            rows='10'
                             className="form-control"
                             value={this.state.content}
                             onChange={this.onChangeContent}
@@ -102,16 +102,13 @@ export default class Posts extends Component {
                         </textarea>
                     </div>
                     <div className="form-group">
-                        <p>^I render markdown! Include the challenge link and code snippets! <br></br>
-                            Link: [link text that will show](challenge url) <br></br>
-                            Code uses backticks: `x = x + 1`
-                        </p>
+                        <p>^I can render markdown!^</p>
                     </div>
 
                     <div className="form-group">
                         <input
                             type="submit"
-                            value="Publish Writeup"
+                            value="Publish"
                             className="btn btn-primary"
                             disabled={(!this.state.disabled) ? "disabled" : ""}
                         />

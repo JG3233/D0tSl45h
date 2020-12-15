@@ -2,6 +2,7 @@
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
 var jwt = require("jsonwebtoken");
+const sanitize = require('mongo-sanitize');
 
 let User = require('../models/user.model')
 require('dotenv').config()
@@ -9,9 +10,9 @@ require('dotenv').config()
 router.route('/').post((req, res) => {
     User.find()
         .then(users => {
-            let exists = users.find(user => user.username == req.body.username)
+            let exists = users.find(user => user.username == sanitize(req.body.username))
             if (exists) {
-                bcrypt.compare(req.body.password, exists.password)
+                bcrypt.compare(sanitize(req.body.password), exists.password)
                     .then(result => {
                         if (result) {
                             let token = jwt.sign({ id: exists.id }, process.env.SECRET, {
@@ -40,7 +41,7 @@ router.route('/').post((req, res) => {
 router.route('/register').post((req, res) => {
     User.find()
         .then(users => {
-            let exists = users.find(user => user.username == req.body.username)
+            let exists = users.find(user => user.username == sanitize(req.body.username))
             if (exists) {
                 console.log(exists)
                 res.json({ msg: "Username is already taken" })
@@ -48,8 +49,8 @@ router.route('/register').post((req, res) => {
         })
         .catch(err => res.status(400).json('Error: ' + err))
 
-    const username = req.body.username;
-    const plaintextpassword = req.body.password;
+    const username = sanitize(req.body.username)
+    const plaintextpassword = sanitize(req.body.password)
     const password = bcrypt.hashSync(plaintextpassword, 10)
 
     const newUser = new User({ username, password })

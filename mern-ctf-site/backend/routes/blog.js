@@ -1,48 +1,48 @@
 const router = require('express').Router()
 const sanitize = require('mongo-sanitize')
 const { authJWT } = require('../middleware')
-let Post = require('../models/post.model')
+let Blog = require('../models/blog.model')
 
 router.route('/').get((req, res) => {
-    Post.find()
+    Blog.find()
         .sort({ 'updatedAt': 'desc' })
         .then(posts => res.json(posts))
         .catch(err => res.status(400).json('Error: ' + err))
 })
 
 router.route('/add', authJWT.verifyToken).post(authJWT.verifyToken, (req, res) => {
-    const username = sanitize(req.body.username)
+    const username =sanitize(req.body.username)
     const title = sanitize(req.body.title)
     const content = sanitize(req.body.content)
 
-    const newPost = new Post({ username, title, content })
+    const newBlog = new Blog({ username, title, content })
 
-    newPost.save()
-        .then(() => res.json('Post added!'))
+    newBlog.save()
+        .then(() => res.json('Blog added!'))
         .catch(err => res.status(400).json('Error: ' + err))
 })
 
 router.route('/:id').get((req, res) => {
-    Post.findById(req.params.id)
-        .then(post => res.json(post))
+    Blog.findById(req.params.id)
+        .then(blog => res.json(blog))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/:id').delete(authJWT.verifyToken, (req, res) => {
-    Post.findByIdAndDelete(req.params.id)
-        .then(() => res.json('Post deleted.'))
+    Blog.findByIdAndDelete(req.params.id)
+        .then(() => res.json('Blog deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/update/:id').post(authJWT.verifyToken, (req, res) => {
-    Post.findById(req.params.id)
-        .then(post => {
-            post.username = sanitize(req.body.username)
-            post.title = sanitize(req.body.title)
-            post.content = sanitize(req.body.content)
+    Blog.findById(req.params.id)
+        .then(blog => {
+            blog.username = sanitize(req.body.username)
+            blog.title = sanitize(req.body.title)
+            blog.content = sanitize(req.body.content)
 
-            post.save()
-                .then(() => res.json('Post updated!'))
+            blog.save()
+                .then(() => res.json('Blog updated!'))
                 .catch(err => res.status(400).json('Error: ' + err));
         })
         .catch(err => res.status(400).json('Error: ' + err));

@@ -9,6 +9,10 @@ import EditPost from './components/edit-post.component'
 import ViewPost from './components/view-post.component'
 import Signin from './components/signin.component'
 import Register from './components/register.component'
+import Blog from './components/blog.component'
+import CreateBlog from "./components/create-blog.component"
+import ViewBlogPost from './components/view-blogpost.component'
+import EditBlogPost from './components/edit-blogpost.component'
 
 function App() {
   return (
@@ -20,6 +24,10 @@ function App() {
         <Route path='/create' component={CreatePost} />
         <Route path='/edit/:id' component={EditPost} />
         <Route path='/view/:id' component={ViewPost} />
+        <Route path='/blog' component={Blog} />
+        <Route path='/createblog' component={CreateBlog} />
+        <Route path='/viewblog/:id' component={ViewBlogPost} />
+        <Route path='/editblog/:id' component={EditBlogPost} />
         <Route path='/signin' component={Signin} />
         <Route path='/register' component={Register} />
       </div>

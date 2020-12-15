@@ -30,6 +30,9 @@ export default class Navbar extends Component {
                                 <Link to='/create' className='nav-link'>Create a Writeup</Link>
                             </li>
                             <li className='navbar-item'>
+                                <Link to='/blog' className='nav-link'>Blog</Link>
+                            </li>
+                            <li className='navbar-item'>
                                 <Link to='/' onClick={this.logOut} className='nav-link'>Logout</Link>
                             </li>
                         </ul>
@@ -42,6 +45,9 @@ export default class Navbar extends Component {
                                 </li>
                                 <li className='navbar-item'>
                                     <Link to='/create' className='nav-link'>Create a Writeup</Link>
+                                </li>
+                                <li className='navbar-item'>
+                                    <Link to='/blog' className='nav-link'>Blog</Link>
                                 </li>
                                 <li className='navbar-item'>
                                     <Link to='/signin' className='nav-link'>Sign in</Link>

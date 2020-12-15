@@ -4,7 +4,7 @@ import authService from '../services/auth.service'
 
 const user = authService.getCurrentUser()
 
-export default class Posts extends Component {
+export default class EditBlogPosts extends Component {
     constructor(props) {
         super(props)
 
@@ -17,8 +17,7 @@ export default class Posts extends Component {
             username: '',
             title: '',
             content: '',
-            users: [],
-            disabled: user
+            users: []
         }
 
         this.formInput = createRef()
@@ -26,14 +25,24 @@ export default class Posts extends Component {
 
     componentDidMount() {
         axios.get('http://localhost:5000/users')
-            .then(res => {
-                if (res.data.length > 0) {
-                    this.setState({
-                        users: res.data.map(user => user.username),
-                        username: res.data[0].username
-                    })
-                }
-            })
+        .then(res => {
+            if(res.data.length > 0){
+                this.setState({
+                    users: res.data.map(user => user.username),
+                })
+            }
+        })
+        axios.get('http://localhost:5000/blog/' + this.props.match.params.id)
+        .then(res => {
+                this.setState({
+                    username: res.data.username,
+                    title: res.data.title,
+                    content: res.data.content
+                })
+        })
+        .catch(err => {
+            console.log(err)
+        })
     }
 
     onChangeUsername(e) {
@@ -57,64 +66,51 @@ export default class Posts extends Component {
     onSubmit(e) {
         e.preventDefault()
 
-        const post = {
+        const blogpost = {
             username: this.state.username,
             title: this.state.title,
             content: this.state.content
         }
 
-        console.log(post)
+        console.log(blogpost)
 
-        axios.post('http://localhost:5000/posts/add', post, { headers: authService.authHeader() })
-            .then(res => console.log(res.data))
-            .catch(err => console.log("Publish post error -> ", err))
-
-        window.location = '/'
+        axios.post('http://localhost:5000/blog/update/'+ this.props.match.params.id, blogpost, { headers: authService.authHeader() })
+        .then(res => console.log(res.data))
+        .catch(err => console.log("Publish post error -> ", err))
+        
+        window.location = '/blog'
     }
 
     render() {
         return (
             <div>
-                <h3>Create New Post</h3><br></br>
+                <h3>Edit Blog Post</h3>
                 <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
+                <div className="form-group">
                         <h5 className="text-primary">Author: {user ? user.username : 'Log in to post!'}</h5>
                     </div>
                     <div className="form-group">
-                        <label>Title/Challenge: </label>
+                        <label>Topic: </label>
                         <input type="text"
                             required
                             className="form-control"
                             value={this.state.title}
                             onChange={this.onChangeTitle}
-                            disabled={(!this.state.disabled) ? "disabled" : ""}
                         />
                     </div>
                     <div className="form-group">
                         <label>Content: </label>
                         <textarea
                             type="text"
-                            rows='20'
+                            rows='10'
                             className="form-control"
                             value={this.state.content}
-                            onChange={this.onChangeContent}
-                            disabled={(!this.state.disabled) ? "disabled" : ""}>
+                            onChange={this.onChangeContent}>
                         </textarea>
-                    </div>
-                    <div className="form-group">
-                        <p>^I render markdown! Include the challenge link and code snippets! <br></br>
-                            Link: [link text that will show](challenge url) <br></br>
-                            Code uses backticks: `x = x + 1`
-                        </p>
                     </div>
 
                     <div className="form-group">
-                        <input
-                            type="submit"
-                            value="Publish Writeup"
-                            className="btn btn-primary"
-                            disabled={(!this.state.disabled) ? "disabled" : ""}
-                        />
+                        <input type="submit" value="Edit Post" className="btn btn-primary" />
                     </div>
                 </form>
             </div>

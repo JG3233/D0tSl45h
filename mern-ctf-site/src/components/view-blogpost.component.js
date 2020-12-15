@@ -20,7 +20,7 @@ const renderers = {
     ),
 };
 
-export default class ViewPosts extends Component {
+export default class ViewBlogPosts extends Component {
     constructor(props) {
         super(props)
 
@@ -33,7 +33,7 @@ export default class ViewPosts extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/posts/' + this.props.match.params.id)
+        axios.get('http://localhost:5000/blog/' + this.props.match.params.id)
             .then(res => {
                 this.setState({
                     username: res.data.username,
