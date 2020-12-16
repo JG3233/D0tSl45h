@@ -1,12 +1,31 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm'
 import authService from '../services/auth.service';
 
 const user = authService.getCurrentUser()
 
+const BlogEntry = props => (
+    <div>
+        <a href={'/viewblog/' + props.blog._id}>{props.blog.title}</a>
+        <br></br>
+    </div>
+)
+
+const Writeup = props => (
+    <div>
+        <a href={'/view/' + props.post._id}>{props.post.title}</a>
+        <br></br>
+    </div>
+)
+
 export default class Profile extends Component {
     constructor(props) {
         super(props)
+
+        this.blogList = this.blogList.bind(this)
+        this.writeupList = this.writeupList.bind(this)
 
         this.state = {
             posts: [],
@@ -16,12 +35,20 @@ export default class Profile extends Component {
             linkedin: '',
             github: '',
             userposts: [],
-            writeups: []
+            writeups: [],
+            authorID: this.props.match.params.id,
+            disabled: false
         }
 
     }
 
     componentDidMount() {
+        if(!user || this.state.authorID !== user.id){
+            this.setState({
+                disabled: true
+            })
+        }
+
         axios.get('http://localhost:5000/posts/')
             .then(res => {
                 this.setState({
@@ -42,7 +69,7 @@ export default class Profile extends Component {
                 console.log(err)
             })
 
-        axios.get('http://localhost:5000/users/' + user.id)
+        axios.get('http://localhost:5000/users/' + this.state.authorID)
             .then(res => {
                 this.setState({
                     username: res.data.username,
@@ -56,15 +83,33 @@ export default class Profile extends Component {
             })
     }
 
+    blogList() {
+        return this.state.blogs.map(curblog => {
+            if (curblog.username === this.state.username) {
+                return <BlogEntry blog={curblog} key={curblog._id} />;
+            }
+            return ''
+        })
+    }
+
+    writeupList() {
+        return this.state.posts.map(curpost => {
+            if (curpost.username === this.state.username) {
+                return <Writeup post={curpost} key={curpost._id} />;
+            }
+            return ''
+        })
+    }
+
     render() {
         return (
             <div>
                 <div className="float-right">
                     <button
-                        onClick={() => window.location = '/editprofile/' + user.id}
+                        onClick={() => window.location = '/editprofile/' + this.state.authorId}
                         type='button'
-                        className="btn btn-primary"
-                    >
+                        disabled={(this.state.disabled) ? "disabled" : ""}
+                        className="btn btn-primary">
                         Edit Profile
                     </button>
                 </div>
@@ -74,17 +119,17 @@ export default class Profile extends Component {
                     <div className='row'>
                         <div className='mx-auto col'>
                             <h5>Bio:</h5>
-                            <p>
+                            <ReactMarkdown plugins={[gfm]}>
                                 {this.state.bio}
-                            </p>
+                            </ReactMarkdown>
                         </div>
                     </div>
                     <br></br>
                     <div className='row'>
                         <div className='col m-1 p-3 rounded border border-primary bg-dark text-light'>
                             <h5><u>Posts</u></h5>
-                            <p>Writeups: {this.state.writeups}</p>
-                            <p>Blogs: {this.state.userposts}</p>
+                            <div>Writeups: {this.writeupList()}</div>
+                            <div>Blogs: {this.blogList()}</div>
                         </div>
                         <div className='col-3 m-1 p-3 rounded border border-primary bg-dark text-light'>
                             <h5><u>Socials</u></h5>

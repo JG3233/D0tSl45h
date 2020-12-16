@@ -59,6 +59,7 @@ export default class Posts extends Component {
 
         const post = {
             username: this.state.username,
+            authorID: user.id,
             title: this.state.title,
             content: this.state.content
         }
@@ -69,7 +70,7 @@ export default class Posts extends Component {
             .then(res => console.log(res.data))
             .catch(err => console.log("Publish post error -> ", err))
 
-        window.location = '/'
+        //window.location = '/'
     }
 
     render() {

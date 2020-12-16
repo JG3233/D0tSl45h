@@ -12,10 +12,11 @@ router.route('/').get((req, res) => {
 
 router.route('/add', authJWT.verifyToken).post(authJWT.verifyToken, (req, res) => {
     const username = sanitize(req.body.username)
+    const authorID = sanitize(req.body.authorID)
     const title = sanitize(req.body.title)
     const content = sanitize(req.body.content)
 
-    const newPost = new Post({ username, title, content })
+    const newPost = new Post({ username, authorID, title, content })
 
     newPost.save()
         .then(() => res.json('Post added!'))

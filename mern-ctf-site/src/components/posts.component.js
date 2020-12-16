@@ -6,7 +6,9 @@ import authService from '../services/auth.service'
 const user = authService.getCurrentUser()
 const Post = props => (
     <tr>
-        <td>{props.post.username}</td>
+        <td>
+            <Link to={'/profile/' + props.post.authorID}>{props.post.username}</Link>
+        </td>
         <td>{props.post.title.substring(0, 30)}</td>
         <td>{props.post.content.substring(0, 30)}</td>
         {user && user.username === props.post.username ?
@@ -41,6 +43,7 @@ export default class Posts extends Component {
         this.deletePost = this.deletePost.bind(this)
 
         this.state = {
+            users: [],
             posts: [],
             githubdata: []
         }
@@ -55,13 +58,21 @@ export default class Posts extends Component {
             })
             .catch(err => console.log('Get posts error -> ', err))
 
-        axios.get('https://api.github.com/users/JG3233')
-        .then(res => {
-            this.setState({
-                githubdata: res.data
+        axios.get('http://localhost:5000/users')
+            .then(res => {
+                this.setState({
+                    users: res.data
+                })
             })
-        })
-        .catch(err => console.log('Get Github data error -> ', err))
+            .catch(err => console.log('Get users error -> ', err))
+
+        axios.get('https://api.github.com/users/JG3233')
+            .then(res => {
+                this.setState({
+                    githubdata: res.data
+                })
+            })
+            .catch(err => console.log('Get Github data error -> ', err))
     }
 
     deletePost(id) {
@@ -81,7 +92,7 @@ export default class Posts extends Component {
     }
 
     Githubdata() {
-            return <GithubProfile data={this.state.githubdata}/>;
+        return <GithubProfile data={this.state.githubdata} />;
     }
 
     render() {

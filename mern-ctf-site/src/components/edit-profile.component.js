@@ -85,7 +85,6 @@ export default class EditPosts extends Component {
                     <div className="form-group">
                         <label>LinkedIn link: </label>
                         <input type="text"
-                            required
                             className="form-control"
                             value={this.state.linkedin}
                             onChange={this.onChangeLinkedIn}
@@ -94,7 +93,6 @@ export default class EditPosts extends Component {
                     <div className="form-group">
                         <label>Github Link: </label>
                         <input type="text"
-                            required
                             className="form-control"
                             value={this.state.github}
                             onChange={this.onChangeGithub}
