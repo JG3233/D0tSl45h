@@ -66,6 +66,8 @@ export default class Posts extends Component {
 
     // get all the writeups
     componentDidMount() {
+        this.getNews()
+
         axios.get('http://localhost:5000/posts')
             .then(res => {
                 this.setState({
@@ -91,8 +93,6 @@ export default class Posts extends Component {
                 })
             })
             .catch(err => console.log('Get Github data error -> ', err))
-
-        this.getNews()
     }
 
     getNews() {
@@ -102,14 +102,14 @@ export default class Posts extends Component {
         })
 
         let d = new Date()
-        let today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + (d.getDate() - 1)
-        // axios.get('https://newsapi.org/v2/everything?q=' + this.state.searchterm + '&from=' + today + '&to=' + today + '&sortBy=popularity&apiKey=db5284f864a6438b9b085181d05f0e7d')
-        //     .then(res => {
-        //         for (let i = 0; i < 5; ++i) {
-        //             this.state.news.push(res.data.articles[i])
-        //         }
-        //     })
-        //     .catch(err => console.log('Get news data error -> ', err))
+        let today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + (d.getDate() )
+        axios.get('https://newsapi.org/v2/everything?q=' + this.state.searchterm + '&from=' + today + '&to=' + today + '&sortBy=popularity&apiKey=db5284f864a6438b9b085181d05f0e7d')
+            .then(res => {
+                for (let i = 0; i < 5; ++i) {
+                    this.state.news.push(res.data.articles[i])
+                }
+            })
+            .catch(err => console.log('Get news data error -> ', err))
     }
 
     onChangeKeyword(e) {
@@ -146,6 +146,7 @@ export default class Posts extends Component {
     // call to list out news
     newsList() {
         return this.state.news.map(curnews => {
+            console.log(curnews)
             return <News news={curnews} key={curnews.url} />;
         })
     }
