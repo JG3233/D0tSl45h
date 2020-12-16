@@ -51,7 +51,7 @@ export default class Signin extends Component {
                         <input type="password" className="form-control" id="password" onChange={this.onChangePassword} />
                     </div>
 
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-success">Submit</button>
                 </form>
                 <br></br>
                 <Link to='/register'>Still need to Register?</Link>

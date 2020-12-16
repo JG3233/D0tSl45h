@@ -52,14 +52,14 @@ export default class ViewBlogPosts extends Component {
     render() {
         return (
             <div>
-                <h3 className='text-primary'>{this.state.username}'s Post</h3>
+                <h3 className='text-success'>{this.state.username}'s Post</h3>
                 <div>
                     <label className='font-weight-bold'>Title: </label>
                     <p>{this.state.title}</p>
                 </div>
                 <div>
                     <p className='font-weight-bold'>Content: </p>
-                    <ReactMarkdown className='p-3 rounded border border-primary bg-dark text-light' 
+                    <ReactMarkdown className='p-3 rounded border border-success bg-dark text-light' 
                     plugins={[gfm]} renderers={renderers}>
                         {this.state.content}
                     </ReactMarkdown>

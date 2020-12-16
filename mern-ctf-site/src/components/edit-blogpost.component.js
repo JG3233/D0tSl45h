@@ -67,13 +67,11 @@ export default class EditBlogPosts extends Component {
             content: this.state.content
         }
 
-        console.log(blogpost)
-
         axios.post('http://localhost:5000/blog/update/' + this.props.match.params.id, blogpost, { headers: authService.authHeader() })
             .then(res => console.log(res.data))
             .catch(err => console.log("Publish post error -> ", err))
 
-        window.location = '/blog'
+        window.location = '/viewblog/' + this.props.match.params.id
     }
 
     render() {
@@ -82,7 +80,7 @@ export default class EditBlogPosts extends Component {
                 <h3>Edit Blog Post</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <h5 className="text-primary">Author: {user ? user.username : 'Log in to post!'}</h5>
+                        <h5 className="text-success">Author: {user ? user.username : 'Log in to post!'}</h5>
                     </div>
                     <div className="form-group">
                         <label>Topic: </label>
@@ -105,7 +103,7 @@ export default class EditBlogPosts extends Component {
                     </div>
 
                     <div className="form-group">
-                        <input type="submit" value="Edit Post" className="btn btn-primary" />
+                        <input type="submit" value="Edit Post" className="btn btn-success" />
                     </div>
                 </form>
             </div>

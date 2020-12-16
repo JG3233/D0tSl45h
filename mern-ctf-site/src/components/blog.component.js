@@ -7,7 +7,7 @@ const user = authService.getCurrentUser()
 
 // blog object for each blog in list
 const Blog = props => (
-    <div className='p-3 rounded border border-primary bg-dark text-light'>
+    <div className='p-3 rounded border border-success bg-dark text-light'>
         <h5>Topic: {props.post.title}</h5>
         <h6>Author: {props.post.username}</h6>
         {user && user.username === props.post.username ?

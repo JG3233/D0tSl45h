@@ -119,11 +119,11 @@ export default class Profile extends Component {
                         onClick={() => window.location = '/editprofile/' + this.state.authorId}
                         type='button'
                         disabled={(this.state.disabled) ? "disabled" : ""}
-                        className="btn btn-primary">
+                        className="btn btn-success">
                         Edit Profile
                     </button>
                 </div>
-                <h3 className='text-primary'>{this.state.username}'s Profile</h3>
+                <h3 className='text-success'>{this.state.username}'s Profile</h3>
                 <br></br>
                 <div className='container'>
                     <div className='row'>
@@ -136,12 +136,12 @@ export default class Profile extends Component {
                     </div>
                     <br></br>
                     <div className='row'>
-                        <div className='col m-1 p-3 rounded border border-primary bg-dark text-light'>
+                        <div className='col m-1 p-3 rounded border border-success bg-dark text-light'>
                             <h5><u>Posts</u></h5>
                             <div>Writeups: {this.writeupList()}</div>
                             <div>Blogs: {this.blogList()}</div>
                         </div>
-                        <div className='col-3 m-1 p-3 rounded border border-primary bg-dark text-light'>
+                        <div className='col-3 m-1 p-3 rounded border border-success bg-dark text-light'>
                             <h5><u>Socials</u></h5>
 
                             {this.state.linkedin !== '' ? (

@@ -31,11 +31,19 @@ const Post = props => (
 
 // use an api and this function to format webmaster github data
 const GithubProfile = props => (
-    <div className='p-2 w-50 float-right text-center rounded border border-primary bg-dark text-light'>
+    <div className='p-2 w-50 col m-1 float-right text-center rounded border border-success bg-dark text-light'>
         <h6 className='fs-5'>Webmaster Github</h6>
         <img alt='profile pic' className='rounded-circle border-light' height='50' width='50' src={props.data.avatar_url}></img>
         <a className='fs-6' href={props.data.html_url}>@{props.data.login}</a>
         <p className='fs-6'>{props.data.bio}</p>
+    </div>
+)
+
+// use an api and this function to format webmaster github data
+const News = props => (
+    <div>
+        <a className='text-success' href={props.news.url}>{props.news.title}</a>
+        <br></br>
     </div>
 )
 
@@ -45,11 +53,14 @@ export default class Posts extends Component {
         super(props)
 
         this.deletePost = this.deletePost.bind(this)
+        this.onChangeKeyword = this.onChangeKeyword.bind(this)
 
         this.state = {
             users: [],
             posts: [],
-            githubdata: []
+            githubdata: [],
+            news: [],
+            searchterm: localStorage.getItem('keyword')
         }
     }
 
@@ -63,7 +74,7 @@ export default class Posts extends Component {
             })
             .catch(err => console.log('Get posts error -> ', err))
 
-            // get all the users
+        // get all the users
         axios.get('http://localhost:5000/users')
             .then(res => {
                 this.setState({
@@ -72,7 +83,7 @@ export default class Posts extends Component {
             })
             .catch(err => console.log('Get users error -> ', err))
 
-            // get data for github api
+        // get data for github api
         axios.get('https://api.github.com/users/JG3233')
             .then(res => {
                 this.setState({
@@ -80,7 +91,34 @@ export default class Posts extends Component {
                 })
             })
             .catch(err => console.log('Get Github data error -> ', err))
+
+        this.getNews()
     }
+
+    getNews() {
+        // get data for news api
+        this.setState({
+            searchterm: localStorage.getItem('keyword')
+        })
+
+        let d = new Date()
+        let today = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + (d.getDate() - 1)
+        // axios.get('https://newsapi.org/v2/everything?q=' + this.state.searchterm + '&from=' + today + '&to=' + today + '&sortBy=popularity&apiKey=db5284f864a6438b9b085181d05f0e7d')
+        //     .then(res => {
+        //         for (let i = 0; i < 5; ++i) {
+        //             this.state.news.push(res.data.articles[i])
+        //         }
+        //     })
+        //     .catch(err => console.log('Get news data error -> ', err))
+    }
+
+    onChangeKeyword(e) {
+        localStorage.setItem('keyword', e.target.value)
+        this.setState({
+            searchterm: e.target.value
+        })
+    }
+
 
     // allow a user to delete a post if it is theirs
     deletePost(id) {
@@ -105,6 +143,13 @@ export default class Posts extends Component {
         return <GithubProfile data={this.state.githubdata} />;
     }
 
+    // call to list out news
+    newsList() {
+        return this.state.news.map(curnews => {
+            return <News news={curnews} key={curnews.url} />;
+        })
+    }
+
     render() {
         return (
             <div>
@@ -122,9 +167,33 @@ export default class Posts extends Component {
                         {this.postList()}
                     </tbody>
                 </table>
-                <div>
+                <div className='row'>
+                    <div className='p-2 w-50 m-1 col float-left text-center rounded border border-success bg-dark text-light'>
+                        <h6 className='fs-5'>Today's top {this.state.searchterm === '' ? "'keyword'" : this.state.searchterm} articles</h6>
+                        {this.newsList()}
+                    </div>
                     {this.Githubdata()}
                 </div>
+                <br></br>
+                <form onSubmit={this.getNews}>
+                    <div className="form-group">
+                        <label className='mx-auto'>Want to see different articles? Choose a new keyword!</label>
+                        <input type="text"
+                            required
+                            className="form-control"
+                            value={this.state.searchterm}
+                            onChange={this.onChangeKeyword}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <input
+                            type="submit"
+                            value="Search"
+                            className="btn btn-success"
+                        />
+                    </div>
+                </form>
             </div >
         )
     }

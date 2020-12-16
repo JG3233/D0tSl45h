@@ -21,7 +21,7 @@ export default class Navbar extends Component {
     render() {
         return (
             <nav className='navbar navbar-dark bg-dark navbar-expand-lg'>
-                <Link to="/" className='navbar-brand'>D0tS14sh</Link>
+                <Link to="/" className=' text-success navbar-brand'>D0tS14sh</Link>
                 { user ? (
                     <div className='navbar-collapse'>
                         <ul className='navbar-nav mr-auto'>

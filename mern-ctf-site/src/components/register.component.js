@@ -17,6 +17,10 @@ export default class Register extends Component {
         }
     }
 
+    componentDidMount(){
+        localStorage.setItem( 'keyword', 'cybersecurity' );
+    }
+
     onChangeUsername(e) {
         this.setState({
             username: e.target.value
@@ -50,7 +54,7 @@ export default class Register extends Component {
                         <input type="password" className="form-control" id="password" onChange={this.onChangePassword} />
                     </div>
 
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="submit" className="btn btn-success">Submit</button>
                 </form>
             </div>
         )

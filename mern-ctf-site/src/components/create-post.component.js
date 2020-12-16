@@ -79,7 +79,7 @@ export default class Posts extends Component {
                 <h3>Create New Post</h3><br></br>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <h5 className="text-primary">Author: {user ? user.username : 'Log in to post!'}</h5>
+                        <h5 className="text-success">Author: {user ? user.username : 'Log in to post!'}</h5>
                     </div>
                     <div className="form-group">
                         <label>Title/Challenge: </label>
@@ -113,7 +113,7 @@ export default class Posts extends Component {
                         <input
                             type="submit"
                             value="Publish Writeup"
-                            className="btn btn-primary"
+                            className="btn btn-success"
                             disabled={(!this.state.disabled) ? "disabled" : ""}
                         />
                     </div>

@@ -80,7 +80,7 @@ export default class EditPosts extends Component {
         .then(res => console.log(res.data))
         .catch(err => console.log("Publish post error -> ", err))
         
-        window.location = '/'
+        window.location = '/view/' + this.props.match.params.id
     }
 
     render() {
@@ -89,7 +89,7 @@ export default class EditPosts extends Component {
                 <h3>Edit Post</h3>
                 <form onSubmit={this.onSubmit}>
                 <div className="form-group">
-                        <h5 className="text-primary">Author: {user ? user.username : 'Log in to post!'}</h5>
+                        <h5 className="text-success">Author: {user ? user.username : 'Log in to post!'}</h5>
                     </div>
                     <div className="form-group">
                         <label>Title: </label>
@@ -112,7 +112,7 @@ export default class EditPosts extends Component {
                     </div>
 
                     <div className="form-group">
-                        <input type="submit" value="Edit Post" className="btn btn-primary" />
+                        <input type="submit" value="Edit Post" className="btn btn-success" />
                     </div>
                 </form>
             </div>
