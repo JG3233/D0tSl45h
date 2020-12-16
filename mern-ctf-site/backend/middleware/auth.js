@@ -1,7 +1,10 @@
 const jwt = require("jsonwebtoken");
 
+//environment variables
 require('dotenv').config()
 
+
+//verify JWT and allow access
 verifyToken = (req, res, next) => {
     let token = req.headers["x-access-token"];
     console.log('verifying...')
