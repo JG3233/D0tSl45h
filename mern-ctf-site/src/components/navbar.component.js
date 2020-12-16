@@ -33,6 +33,9 @@ export default class Navbar extends Component {
                                 <Link to='/blog' className='nav-link'>Blog</Link>
                             </li>
                             <li className='navbar-item'>
+                                <Link to={'/profile/' + user.id} className='nav-link'>Profile</Link>
+                            </li>
+                            <li className='navbar-item'>
                                 <Link to='/' onClick={this.logOut} className='nav-link'>Logout</Link>
                             </li>
                         </ul>

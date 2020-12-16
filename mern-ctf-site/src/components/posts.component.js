@@ -91,8 +91,8 @@ export default class Posts extends Component {
                 <table className="table">
                     <thead className="thead-light">
                         <tr>
-                            <th>Username</th>
-                            <th>Title/Challenge</th>
+                            <th>User</th>
+                            <th>Challenge</th>
                             <th>Content</th>
                             <th>Actions</th>
                         </tr>

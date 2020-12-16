@@ -52,8 +52,11 @@ router.route('/register').post((req, res) => {
     const username = sanitize(req.body.username)
     const plaintextpassword = sanitize(req.body.password)
     const password = bcrypt.hashSync(plaintextpassword, 10)
+    const bio = ''
+    const linkedin = ''
+    const github = ''
 
-    const newUser = new User({ username, password })
+    const newUser = new User({ username, password, bio, linkedin, github })
 
     newUser.save()
         .then(() => res.json({ msg: 'User added!' }))

@@ -15,6 +15,15 @@ const userSchema = new Schema({
         type: String,
         required: true,
         minlength: 3
+    },
+    bio: {
+        type: String,
+    },
+    linkedin: {
+        type: String,
+    },
+    github: {
+        type: String,
     }
 
 }, {
