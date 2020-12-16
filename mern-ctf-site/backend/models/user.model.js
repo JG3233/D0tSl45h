@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 
 const Schema = mongoose.Schema
 
+//schema for a user account
 const userSchema = new Schema({
     username: {
         type: String,
@@ -30,6 +31,7 @@ const userSchema = new Schema({
     timestamps: true,
 })
 
+//implement some password security functions so that they are hashed
 userSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
 }

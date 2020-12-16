@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import authService from '../services/auth.service'
 
+// file for registration page
 export default class Register extends Component {
     constructor(props) {
         super(props)
 
+        // listen for field updates
         this.onChangeUsername = this.onChangeUsername.bind(this)
         this.onChangePassword = this.onChangePassword.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
@@ -13,10 +15,6 @@ export default class Register extends Component {
             username: "",
             password: ""
         }
-    }
-
-    componentDidMount() {
-
     }
 
     onChangeUsername(e) {
@@ -31,12 +29,11 @@ export default class Register extends Component {
         })
     }
 
+    // user authservice to attempt to register
     onSubmit(e) {
         e.preventDefault()
 
         authService.register(this.state.username, this.state.password)
-
-        window.location = '/signin'
     }
 
     render() {

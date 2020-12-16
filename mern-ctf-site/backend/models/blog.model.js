@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
+// schema for a blog post
 const blogSchema = new Schema({
     username: { type: String, required: true },
     title: { type: String, required: true },

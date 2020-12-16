@@ -20,6 +20,7 @@ const renderers = {
     ),
 };
 
+//file to allow users to view a writeup 
 export default class ViewPosts extends Component {
     constructor(props) {
         super(props)
@@ -32,6 +33,7 @@ export default class ViewPosts extends Component {
 
     }
 
+    // get data for this writeup
     componentDidMount() {
         axios.get('http://localhost:5000/posts/' + this.props.match.params.id)
             .then(res => {
@@ -46,6 +48,7 @@ export default class ViewPosts extends Component {
             })
     }
 
+    // show the writeup, render in md with special image rendering
     render() {
         return (
             <div>

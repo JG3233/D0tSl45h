@@ -4,6 +4,7 @@ import authService from '../services/auth.service';
 
 const user = authService.getCurrentUser()
 
+// navbar for entire site
 export default class Navbar extends Component {
     constructor(props) {
         super(props)
@@ -16,6 +17,7 @@ export default class Navbar extends Component {
         window.location = '/'
     }
 
+    // render method uses jsx to pick a navbar according to whether a user is logged in
     render() {
         return (
             <nav className='navbar navbar-dark bg-dark navbar-expand-lg'>

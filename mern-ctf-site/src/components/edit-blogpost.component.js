@@ -4,11 +4,12 @@ import authService from '../services/auth.service'
 
 const user = authService.getCurrentUser()
 
+//file for page that can edit a blog post
 export default class EditBlogPosts extends Component {
     constructor(props) {
         super(props)
 
-        this.onChangeUsername = this.onChangeUsername.bind(this)
+        // listen for field change
         this.onChangeTitle = this.onChangeTitle.bind(this)
         this.onChangeContent = this.onChangeContent.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
@@ -24,31 +25,24 @@ export default class EditBlogPosts extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/users')
-        .then(res => {
-            if(res.data.length > 0){
-                this.setState({
-                    users: res.data.map(user => user.username),
-                })
-            }
-        })
+        if (user) {
+            this.setState({
+                username: user.username
+            })
+        }
+
+        // get blog info and populate
         axios.get('http://localhost:5000/blog/' + this.props.match.params.id)
-        .then(res => {
+            .then(res => {
                 this.setState({
                     username: res.data.username,
                     title: res.data.title,
                     content: res.data.content
                 })
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    }
-
-    onChangeUsername(e) {
-        this.setState({
-            username: e.target.value
-        })
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     onChangeTitle(e) {
@@ -63,6 +57,7 @@ export default class EditBlogPosts extends Component {
         })
     }
 
+    // try to update, auth check
     onSubmit(e) {
         e.preventDefault()
 
@@ -74,10 +69,10 @@ export default class EditBlogPosts extends Component {
 
         console.log(blogpost)
 
-        axios.post('http://localhost:5000/blog/update/'+ this.props.match.params.id, blogpost, { headers: authService.authHeader() })
-        .then(res => console.log(res.data))
-        .catch(err => console.log("Publish post error -> ", err))
-        
+        axios.post('http://localhost:5000/blog/update/' + this.props.match.params.id, blogpost, { headers: authService.authHeader() })
+            .then(res => console.log(res.data))
+            .catch(err => console.log("Publish post error -> ", err))
+
         window.location = '/blog'
     }
 
@@ -86,7 +81,7 @@ export default class EditBlogPosts extends Component {
             <div>
                 <h3>Edit Blog Post</h3>
                 <form onSubmit={this.onSubmit}>
-                <div className="form-group">
+                    <div className="form-group">
                         <h5 className="text-primary">Author: {user ? user.username : 'Log in to post!'}</h5>
                     </div>
                     <div className="form-group">

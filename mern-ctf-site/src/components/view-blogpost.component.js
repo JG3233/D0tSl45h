@@ -20,6 +20,7 @@ const renderers = {
     ),
 };
 
+// file to display a blog post
 export default class ViewBlogPosts extends Component {
     constructor(props) {
         super(props)
@@ -32,6 +33,7 @@ export default class ViewBlogPosts extends Component {
 
     }
 
+    // get the data for this blog post
     componentDidMount() {
         axios.get('http://localhost:5000/blog/' + this.props.match.params.id)
             .then(res => {
@@ -46,6 +48,7 @@ export default class ViewBlogPosts extends Component {
             })
     }
 
+    // show the post in md, render images so they fit
     render() {
         return (
             <div>

@@ -4,10 +4,12 @@ import authService from '../services/auth.service'
 
 const user = authService.getCurrentUser()
 
+// file for creating writeups
 export default class Posts extends Component {
     constructor(props) {
         super(props)
 
+        //listen for field changes
         this.onChangeUsername = this.onChangeUsername.bind(this)
         this.onChangeTitle = this.onChangeTitle.bind(this)
         this.onChangeContent = this.onChangeContent.bind(this)
@@ -24,16 +26,13 @@ export default class Posts extends Component {
         this.formInput = createRef()
     }
 
+    // get all the user
     componentDidMount() {
-        axios.get('http://localhost:5000/users')
-            .then(res => {
-                if (res.data.length > 0) {
-                    this.setState({
-                        users: res.data.map(user => user.username),
-                        username: res.data[0].username
-                    })
-                }
+        if(user){
+            this.setState({
+                username: user.username
             })
+        }
     }
 
     onChangeUsername(e) {
@@ -54,6 +53,7 @@ export default class Posts extends Component {
         })
     }
 
+    // try to add new writeup, auth header
     onSubmit(e) {
         e.preventDefault()
 
@@ -70,7 +70,7 @@ export default class Posts extends Component {
             .then(res => console.log(res.data))
             .catch(err => console.log("Publish post error -> ", err))
 
-        //window.location = '/'
+        window.location = '/'
     }
 
     render() {

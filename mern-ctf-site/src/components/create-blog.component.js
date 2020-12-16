@@ -4,11 +4,12 @@ import authService from '../services/auth.service'
 
 const user = authService.getCurrentUser()
 
+// create a blog post
 export default class BlogPosts extends Component {
     constructor(props) {
         super(props)
 
-        this.onChangeUsername = this.onChangeUsername.bind(this)
+        // listen for changes to each field
         this.onChangeTitle = this.onChangeTitle.bind(this)
         this.onChangeContent = this.onChangeContent.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
@@ -24,22 +25,13 @@ export default class BlogPosts extends Component {
         this.formInput = createRef()
     }
 
+    // set username if logged in
     componentDidMount() {
-        axios.get('http://localhost:5000/users')
-            .then(res => {
-                if (res.data.length > 0) {
-                    this.setState({
-                        users: res.data.map(user => user.username),
-                        username: user.username
-                    })
-                }
+        if (user) {
+            this.setState({
+                username: user.username
             })
-    }
-
-    onChangeUsername(e) {
-        this.setState({
-            username: e.target.value
-        })
+        }
     }
 
     onChangeTitle(e) {
@@ -54,6 +46,7 @@ export default class BlogPosts extends Component {
         })
     }
 
+    // attempt to add to db, auth header
     onSubmit(e) {
         e.preventDefault()
 
@@ -62,8 +55,6 @@ export default class BlogPosts extends Component {
             title: this.state.title,
             content: this.state.content
         }
-
-        console.log(blogpost)
 
         axios.post('http://localhost:5000/blog/add', blogpost, { headers: authService.authHeader() })
             .then(res => console.log(res.data))

@@ -6,6 +6,7 @@ import authService from '../services/auth.service';
 
 const user = authService.getCurrentUser()
 
+// object for a single blog entry
 const BlogEntry = props => (
     <div>
         <a href={'/viewblog/' + props.blog._id}>{props.blog.title}</a>
@@ -13,6 +14,7 @@ const BlogEntry = props => (
     </div>
 )
 
+// object for each writeup
 const Writeup = props => (
     <div>
         <a href={'/view/' + props.post._id}>{props.post.title}</a>
@@ -20,6 +22,7 @@ const Writeup = props => (
     </div>
 )
 
+// file for showing a user's profile
 export default class Profile extends Component {
     constructor(props) {
         super(props)
@@ -43,12 +46,14 @@ export default class Profile extends Component {
     }
 
     componentDidMount() {
-        if(!user || this.state.authorID !== user.id){
+        //check if user is logged in to see if they can edit the profile
+        if (!user || this.state.authorID !== user.id) {
             this.setState({
                 disabled: true
             })
         }
 
+        // get all posts
         axios.get('http://localhost:5000/posts/')
             .then(res => {
                 this.setState({
@@ -59,6 +64,7 @@ export default class Profile extends Component {
                 console.log(err)
             })
 
+        // get all blogs
         axios.get('http://localhost:5000/blog/')
             .then(res => {
                 this.setState({
@@ -69,6 +75,7 @@ export default class Profile extends Component {
                 console.log(err)
             })
 
+            // get the data for the profile, not necessarily current user
         axios.get('http://localhost:5000/users/' + this.state.authorID)
             .then(res => {
                 this.setState({
@@ -83,6 +90,7 @@ export default class Profile extends Component {
             })
     }
 
+    // returns a list of blog entries
     blogList() {
         return this.state.blogs.map(curblog => {
             if (curblog.username === this.state.username) {
@@ -92,6 +100,7 @@ export default class Profile extends Component {
         })
     }
 
+    // return the list of writeups
     writeupList() {
         return this.state.posts.map(curpost => {
             if (curpost.username === this.state.username) {
@@ -101,6 +110,7 @@ export default class Profile extends Component {
         })
     }
 
+    // display bio in md
     render() {
         return (
             <div>

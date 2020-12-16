@@ -5,6 +5,7 @@ import authService from '../services/auth.service'
 
 const user = authService.getCurrentUser()
 
+// blog object for each blog in list
 const Blog = props => (
     <div className='p-3 rounded border border-primary bg-dark text-light'>
         <h5>Topic: {props.post.title}</h5>
@@ -26,6 +27,7 @@ const Blog = props => (
     </div>
 )
 
+// file for showing blog posts
 export default class Blogposts extends Component {
     constructor(props) {
         super(props)
@@ -35,6 +37,7 @@ export default class Blogposts extends Component {
         this.state = { blogposts: [] }
     }
 
+    //get all the blogs
     componentDidMount() {
         axios.get('http://localhost:5000/blog')
             .then(res => {
@@ -45,6 +48,7 @@ export default class Blogposts extends Component {
             .catch(err => console.log('Get blog posts error -> ', err))
     }
 
+    // delete a blog, send auth header
     deletePost(id) {
         axios.delete('http://localhost:5000/blog/' + id, { headers: authService.authHeader() })
             .then(res => { console.log(res) })
@@ -55,6 +59,7 @@ export default class Blogposts extends Component {
         })
     }
 
+    // goes through each blog, created blog object from each
     blogList() {
         return this.state.blogposts.map(curpost => {
             return <div key={curpost._id}>

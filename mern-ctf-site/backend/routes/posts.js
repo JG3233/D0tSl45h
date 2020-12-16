@@ -3,6 +3,7 @@ const sanitize = require('mongo-sanitize')
 const { authJWT } = require('../middleware')
 let Post = require('../models/post.model')
 
+// returns all writeups
 router.route('/').get((req, res) => {
     Post.find()
         .sort({ 'updatedAt': 'desc' })
@@ -10,6 +11,7 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err))
 })
 
+// add a writeup, auth check, sanitize inputs
 router.route('/add', authJWT.verifyToken).post(authJWT.verifyToken, (req, res) => {
     const username = sanitize(req.body.username)
     const authorID = sanitize(req.body.authorID)
@@ -23,18 +25,21 @@ router.route('/add', authJWT.verifyToken).post(authJWT.verifyToken, (req, res) =
         .catch(err => res.status(400).json('Error: ' + err))
 })
 
+// return specific writeup
 router.route('/:id').get((req, res) => {
     Post.findById(req.params.id)
         .then(post => res.json(post))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//delete a writeup, auth check
 router.route('/:id').delete(authJWT.verifyToken, (req, res) => {
     Post.findByIdAndDelete(req.params.id)
         .then(() => res.json('Post deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// edit writeup, auth check
 router.route('/update/:id').post(authJWT.verifyToken, (req, res) => {
     Post.findById(req.params.id)
         .then(post => {

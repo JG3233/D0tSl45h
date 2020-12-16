@@ -4,6 +4,8 @@ import axios from 'axios'
 import authService from '../services/auth.service'
 
 const user = authService.getCurrentUser()
+
+// object to help display each writeup in the table
 const Post = props => (
     <tr>
         <td>
@@ -27,6 +29,7 @@ const Post = props => (
     </tr>
 )
 
+// use an api and this function to format webmaster github data
 const GithubProfile = props => (
     <div className='p-2 w-50 float-right text-center rounded border border-primary bg-dark text-light'>
         <h6 className='fs-5'>Webmaster Github</h6>
@@ -36,6 +39,7 @@ const GithubProfile = props => (
     </div>
 )
 
+// file to show all writeups on home page
 export default class Posts extends Component {
     constructor(props) {
         super(props)
@@ -49,6 +53,7 @@ export default class Posts extends Component {
         }
     }
 
+    // get all the writeups
     componentDidMount() {
         axios.get('http://localhost:5000/posts')
             .then(res => {
@@ -58,6 +63,7 @@ export default class Posts extends Component {
             })
             .catch(err => console.log('Get posts error -> ', err))
 
+            // get all the users
         axios.get('http://localhost:5000/users')
             .then(res => {
                 this.setState({
@@ -66,6 +72,7 @@ export default class Posts extends Component {
             })
             .catch(err => console.log('Get users error -> ', err))
 
+            // get data for github api
         axios.get('https://api.github.com/users/JG3233')
             .then(res => {
                 this.setState({
@@ -75,6 +82,7 @@ export default class Posts extends Component {
             .catch(err => console.log('Get Github data error -> ', err))
     }
 
+    // allow a user to delete a post if it is theirs
     deletePost(id) {
         axios.delete('http://localhost:5000/posts/' + id, { headers: authService.authHeader() })
             .then(res => { console.log(res) })
@@ -85,12 +93,14 @@ export default class Posts extends Component {
         })
     }
 
+    // return a list of writeups with map
     postList() {
         return this.state.posts.map(curpost => {
             return <Post post={curpost} deletePost={this.deletePost} key={curpost._id} />;
         })
     }
 
+    // easy call to github api function
     Githubdata() {
         return <GithubProfile data={this.state.githubdata} />;
     }

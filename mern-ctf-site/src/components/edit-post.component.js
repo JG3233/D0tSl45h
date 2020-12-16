@@ -4,10 +4,12 @@ import authService from '../services/auth.service'
 
 const user = authService.getCurrentUser()
 
+// file to let users edit a writeup
 export default class EditPosts extends Component {
     constructor(props) {
         super(props)
 
+        // listen for field changes
         this.onChangeUsername = this.onChangeUsername.bind(this)
         this.onChangeTitle = this.onChangeTitle.bind(this)
         this.onChangeContent = this.onChangeContent.bind(this)
@@ -24,14 +26,13 @@ export default class EditPosts extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:5000/users')
-        .then(res => {
-            if(res.data.length > 0){
-                this.setState({
-                    users: res.data.map(user => user.username),
-                })
-            }
-        })
+        if (user){
+            this.setState({
+                username: user.username
+            })
+        }
+
+        // get info for post, populate
         axios.get('http://localhost:5000/posts/' + this.props.match.params.id)
         .then(res => {
                 this.setState({
@@ -63,6 +64,7 @@ export default class EditPosts extends Component {
         })
     }
 
+    //update the writeup, auth check
     onSubmit(e) {
         e.preventDefault()
 

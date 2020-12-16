@@ -4,10 +4,12 @@ import authService from '../services/auth.service'
 
 const user = authService.getCurrentUser()
 
-export default class EditPosts extends Component {
+// file to allow users to edit profile data
+export default class EditProfile extends Component {
     constructor(props) {
         super(props)
 
+        // listen for field changes
         this.onChangeBio = this.onChangeBio.bind(this)
         this.onChangeLinkedIn = this.onChangeLinkedIn.bind(this)
         this.onChangeGithub = this.onChangeGithub.bind(this)
@@ -22,6 +24,7 @@ export default class EditPosts extends Component {
         this.formInput = createRef()
     }
 
+    // get this users data
     componentDidMount() {
         axios.get('http://localhost:5000/users/' + user.id)
             .then(res => {
@@ -51,6 +54,7 @@ export default class EditPosts extends Component {
         })
     }
 
+    // try to update profile, another auth check
     onSubmit(e) {
         e.preventDefault()
 

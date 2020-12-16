@@ -3,6 +3,7 @@ const sanitize = require('mongo-sanitize')
 const { authJWT } = require('../middleware')
 let Blog = require('../models/blog.model')
 
+// blog route gets all blogs
 router.route('/').get((req, res) => {
     Blog.find()
         .sort({ 'updatedAt': 'desc' })
@@ -10,6 +11,7 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err))
 })
 
+//route to add a blog, uses verification middleware
 router.route('/add', authJWT.verifyToken).post(authJWT.verifyToken, (req, res) => {
     const username =sanitize(req.body.username)
     const title = sanitize(req.body.title)
@@ -22,18 +24,21 @@ router.route('/add', authJWT.verifyToken).post(authJWT.verifyToken, (req, res) =
         .catch(err => res.status(400).json('Error: ' + err))
 })
 
+// returns specific blog post
 router.route('/:id').get((req, res) => {
     Blog.findById(req.params.id)
         .then(blog => res.json(blog))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// deletes a blog post, auth check
 router.route('/:id').delete(authJWT.verifyToken, (req, res) => {
     Blog.findByIdAndDelete(req.params.id)
         .then(() => res.json('Blog deleted.'))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+// edit to a blog post, auth check
 router.route('/update/:id').post(authJWT.verifyToken, (req, res) => {
     Blog.findById(req.params.id)
         .then(blog => {

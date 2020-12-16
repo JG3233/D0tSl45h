@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import authService from '../services/auth.service'
 
+// file to let users sign in
 export default class Signin extends Component {
     constructor(props) {
         super(props)
 
+        // listen to field changes
         this.onChangeUsername = this.onChangeUsername.bind(this)
         this.onChangePassword = this.onChangePassword.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
@@ -14,10 +16,6 @@ export default class Signin extends Component {
             username: "",
             password: ""
         }
-    }
-
-    componentDidMount() {
-
     }
 
     onChangeUsername(e) {
@@ -32,6 +30,7 @@ export default class Signin extends Component {
         })
     }
 
+    // use authservice to login
     onSubmit(e) {
         e.preventDefault()
 

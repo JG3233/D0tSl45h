@@ -2,6 +2,7 @@ import axios from "axios";
 
 const API_URL = "http://localhost:5000/signin";
 
+// handle registration process for client side
 const register = (username, password) => {
 
     const data = {
@@ -12,7 +13,8 @@ const register = (username, password) => {
     axios.post(API_URL + '/register', data)
         .then(res => {
             if (res.data.msg === 'User added!') {
-                // alert('registration complete')
+                alert('registration complete')
+                window.location = '/signin'
             }
             else {
                 if (res.data.msg === 'Username is already taken') {
@@ -26,6 +28,7 @@ const register = (username, password) => {
         .catch(err => console.log("Registration Error -> ", err))
 };
 
+// login on client side, setup jwt token
 const login = (username, password) => {
 
     const data = {
@@ -45,21 +48,24 @@ const login = (username, password) => {
                 return res.data
             }
             else {
-                // alert('sorry incorrect login')
+                alert('sorry incorrect login')
                 console.log('login failure')
             }
         })
         .catch(err => console.log("Signin Error -> ", err))
 };
 
+// remove token to logout
 const logout = () => {
     localStorage.removeItem("user");
 };
 
+// returns data in localstorage for token use
 const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem("user"));
 };
 
+// set a header to authenticate on server side
 const authHeader = () => {
     const user = JSON.parse(localStorage.getItem('user'));
   

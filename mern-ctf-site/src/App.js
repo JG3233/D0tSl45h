@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
 
+// import components
 import Navbar from "./components/navbar.component"
 import Posts from "./components/posts.component"
 import CreatePost from "./components/create-post.component"
@@ -16,6 +17,7 @@ import CreateBlog from "./components/create-blog.component"
 import ViewBlogPost from './components/view-blogpost.component'
 import EditBlogPost from './components/edit-blogpost.component'
 
+//setup router, navbar, and components for each route
 function App() {
   return (
     <Router>
